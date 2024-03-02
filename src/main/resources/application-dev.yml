@@ -1,0 +1,11 @@
+debug: false
+
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/XE
+    username: mng_pics
+    password: 123456789
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

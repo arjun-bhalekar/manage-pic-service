@@ -1,0 +1,129 @@
+openapi: 3.0.1
+info:
+  title: Manage-Pic-Service
+  description: API Specificiation based on Open API 3.0.1 for manage-pic-service
+  version: 1.0.1
+  termsOfService: termsOfService
+  contact:
+    email: arjunbhalekar95@gmail.com
+
+#servers:
+#  - url : http://localhost:8085/manage-pic-service
+#  - url : http://test.server/manage-pic-service
+
+paths:
+  /users:
+    post:
+      summary: Create a New User
+      description: This is POST API to create new user
+      operationId: createUser
+      parameters:
+        - $ref: '#/components/parameters/correlationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - UserApi
+    get:
+      summary: Gets a List of Users
+      description: This is GET API to get list of Users
+      operationId: getUsers
+      parameters:
+        - $ref: '#/components/parameters/correlationId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+        - UserApi
+
+components:
+  parameters:
+    correlationId:
+      name: correlationId
+      description: Unique Identifier (UUID) to trace request
+      example: 2a3d230e-f180-4596-9008-b2da6ce3dc6e
+      in: header
+      required : true
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: Please provide requited parameter
+        errorDetails:
+          type: string
+          example: error occurred in getting user details
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    User:
+      type: object
+      required:
+        - username
+        - email
+        - firstName
+        - lastName
+      properties:
+        id:
+          type: integer
+          example: 101
+        username:
+          type: string
+          example: john12345
+        email:
+          type: string
+          example: john@testmail.com
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Carlton

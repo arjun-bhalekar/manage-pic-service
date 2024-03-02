@@ -1,0 +1,77 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.openapi.generator' version '7.2.0'
+}
+
+group = 'com.mngpics'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+springBoot {
+	mainClass="com.mngpics.ManagePicServiceApplication"
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.3'
+	implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
+	implementation 'io.swagger.core.v3:swagger-core:2.2.20'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+}
+
+
+openApiGenerate {
+	generatorName.set("spring")
+	inputSpec.set("$projectDir/src/main/resources/swagger/manage-pic-service.yml")
+	outputDir.set("$projectDir/build/openapi-gen")
+	apiPackage.set("com.mngpics.api")
+	modelPackage.set("com.mngpics.model")
+	configOptions.set(
+			[
+					dateLibrary : "java8",
+					serializableModel : "true",
+					useSpringBoot3 : "true",
+					delegatePattern: "true"
+			]
+	)
+}
+
+
+sourceSets.main.java.srcDir "$projectDir/build/openapi-gen/src/main/java"
+
+
+//
+//task copyOpenApiSrc(type : Copy) {
+//	println "==>"+"${projectDir}"
+//	from "${projectDir}/build/generate-resources/main/src/main/java/com"
+//	into "${projectDir}/src/main/java/com"
+//}
+//
+
+//tasks.register('cleanOpenApiUnwanted', Delete) {
+//	delete "$buildDir/openapiGen/src/main/java/org"
+//}
+//resolveMainClassName.dependsOn("cleanOpenApiUnwanted")
+
+compileJava.dependsOn("openApiGenerate")
+
+
+
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
