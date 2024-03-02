@@ -10,9 +10,9 @@ This Service/Application is created using Standard Spring Boot Framework with Op
 
 ### Open API Generator Gradle Plugin -
 
-https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc
+- https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc
 
 Spring Generator :
 
-    https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/spring.md
+- https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/spring.md
 
